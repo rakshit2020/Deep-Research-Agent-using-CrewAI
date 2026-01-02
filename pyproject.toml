@@ -1,0 +1,30 @@
+[project]
+name = "researchagent"
+version = "0.1.0"
+description = "Deep Research Agent using CrewAI with NVIDIA Nemotron"
+requires-python = ">=3.12"
+dependencies = [
+    "cohere>=5.20.1",
+    "crewai[tools]>=0.86.0",
+    "firecrawl>=4.12.0",
+    "firecrawl-py>=4.12.0",
+    "litellm[proxy]>=1.75.3",
+    "python-dotenv>=1.0.0",
+    "pyyaml>=6.0.3",
+]
+
+[project.scripts]
+run_crew = "researchagent.main:run"
+train = "researchagent.main:train"
+replay = "researchagent.main:replay"
+test_crew = "researchagent.main:test"
+
+[tool.crewai]
+name = "researchagent"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
