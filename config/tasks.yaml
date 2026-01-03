@@ -1,0 +1,178 @@
+clarify_requirements_task:
+  description: >
+    Engage with the user to clearly define the research topic: '{topic}'.
+
+    Your goal is to remove ambiguity and lock down a precise research brief.
+    Explicitly determine:
+    - Scope boundaries (what is included and excluded)
+    - Desired depth (high-level overview vs deep technical analysis)
+    - Target audience (engineers, leadership, researchers, mixed)
+    - Time relevance (recent only or historical context allowed)
+    If information is missing, ask focused clarifying questions.
+    If sufficient information exists, finalize the research brief.
+
+  expected_output: >
+    If sufficient information exists:
+    - Acknowledge readiness to proceed
+    - Provide a concise summary of the understood requirements
+    - Produce a finalized, concrete research questions
+    - List assumptions and exclusions explicitly
+    - Confirm initiation of the research phase
+
+
+    If insufficient information exists:
+    - Ask only the minimum necessary clarifying questions max 2 questions
+
+  agent: research_manager
+
+research_plan_task:
+  description: >
+    Create a clear, execution-ready research plan for the topic '{topic}'.
+
+    This plan will be followed STRICTLY by another agent, so it must be concrete,
+    explicit, and operational.
+
+    HARD REQUIREMENTS (MUST FOLLOW):
+    - Break the topic into AT LEAST 5 distinct research areas
+    - Each research area MUST represent a different angle
+      (e.g., technical feasibility, economic impact, adoption timeline,
+       regulatory constraints, role-specific impact)
+    - For EACH research area, explicitly state:
+      - What needs to be answered
+      - Why it matters
+      - How many web searches are required (minimum 1 per area)
+    - Avoid vague verbs such as "explore", "understand", or "look into"
+
+    You are NOT doing research here.
+    You are designing a plan that enforces depth.
+
+  expected_output: >
+    A structured MARKDOWN research plan with the following sections:
+
+    ## Research Objective
+    ## Research Areas (minimum 5)
+    For each area:
+    - Research Question
+    - Key Aspects to Investigate
+    - Required Number of Web Searches
+    - Preferred Source Types
+    ## Definition of Sufficient Research
+    - Clear conditions that must be met before research is considered complete
+
+  agent: research_manager
+  context:
+    - clarify_requirements_task
+
+conduct_research_task:
+  description: >
+    Execute the research EXACTLY according to the approved research plan.
+
+    This task is expected to perform DEEP research, not a quick overview.
+
+    NON-NEGOTIABLE RULES:
+    - You MUST perform AT LEAST 5 separate web searches using the search tool
+    - Each search MUST be a distinct Serper tool call
+    - Each search MUST address a different research area from the plan
+    - You are NOT allowed to stop early, even if information seems repetitive
+
+    EXECUTION INSTRUCTIONS:
+    1. Identify the research areas defined in the research plan
+    2. For EACH research area:
+       - Perform the required number of web searches
+       - Use different, specific search queries
+    3. After EACH search:
+       - Summarize only factual findings
+       - Clearly link findings back to the research area
+    4. After completing ALL searches:
+       - Summarize what is well-covered
+       - Explicitly list any remaining uncertainties or gaps
+    5. Never procced further without doing tool calls.
+
+    SOURCE QUALITY GUIDELINES:
+    - Prefer official reports, standards bodies, benchmarks, and academic sources
+    - Industry reports are acceptable if clearly cited
+    - Blogs or opinion pieces must be explicitly labeled as such
+
+    TOOL USAGE:
+    - Use search_tool for all searches
+    - Use scrape_tool ONLY if a page contains dense, high-value content
+      that cannot be captured from search snippets alone
+
+  expected_output: >
+    A comprehensive MARKDOWN research report containing:
+
+    ## Research Execution Summary
+    - Total number of searches performed (must be ≥5)
+
+    ## Research Findings by Area
+    For each research area:
+    - Search Queries Used
+    - Sources Consulted
+    - Key Findings (facts only)
+
+    ## Cross-Cutting Insights
+    - Patterns or consensus across sources
+
+    ## Remaining Gaps and Uncertainties
+    - Clearly stated unanswered questions or weakly supported areas
+
+  agent: deep_researcher
+
+write_report_task:
+  description: >
+    Write a professional, well-structured research report on '{topic}'
+    using ONLY the findings produced during the research execution.
+
+    The report must follow a standard technical research structure
+    commonly used in industry and academic surveys.
+
+    STRICT RULES (MUST FOLLOW):
+    - Do NOT introduce new facts, sources, or assumptions
+    - Base all statements strictly on the conducted research
+    - Maintain a neutral, analytical, and evidence-driven tone
+    - Clearly distinguish between observed facts and inferred insights
+
+    The goal is to produce a report that can be reviewed by
+    engineers, researchers, or decision-makers without ambiguity.
+
+  expected_output: >
+    A structured MARKDOWN report with the following sections:
+
+    ## 1. Executive Summary
+    - Concise overview of the topic
+    - Key conclusions drawn from the research
+    - High-level implications
+
+    ## 2. Research Scope and Approach
+    - What was studied and why
+    - How the research was conducted
+    - Types of sources consulted (e.g., documentation, benchmarks, papers)
+    - Total number of web searches and sources reviewed
+
+    ## 3. Detailed Findings
+    - Organized by the research areas defined in the research plan
+    - Factual findings with clear explanations
+    - Inline references to sources where applicable
+
+    ## 4. Cross-Cutting Insights
+    - Patterns or trends observed across multiple sources
+    - Areas of agreement or disagreement in the literature
+
+    ## 5. Limitations and Open Questions
+    - Data gaps or weakly supported areas
+    - Constraints encountered during research
+    - Topics requiring further investigation
+
+    ## 6. References
+    - List of all sources cited
+    - Each reference must include a working URL
+
+    No Comments or Explanations just mark down report.
+
+  agent: technical_writer
+  context:
+    - conduct_research_task
+
+
+
+
