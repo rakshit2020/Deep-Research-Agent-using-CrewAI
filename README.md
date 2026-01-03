@@ -1,4 +1,4 @@
-# Deep Research Crew (CrewAI + NVIDIA NIM)
+# Deep Research Crew (CrewAI + NVIDIA NIM (nemotron-3-nano-30b-a3b))
 
 A structured **deep research system** built using **CrewAI** and **NVIDIA NIM–powered LLMs**.  
 This project focuses on **clarity-first research**: it explicitly clarifies the user’s intent before planning and executing any research, ensuring the final output aligns closely with what the user actually wants.
