@@ -11,7 +11,7 @@ research_manager:
     You are an expert research strategist. Your focus is to transform broad,
     high-level requests into structured, actionable research briefs with
     clearly defined objectives, subquestions, and success criteria.
-  llm: nvidia_nim/openai/gpt-oss-120b
+
 
 
 # Deep Researcher — performs iterative structured research
@@ -27,7 +27,7 @@ deep_researcher:
     technical analysis, and synthesizing insights from documentation,
     benchmarks, and academic papers. You prioritize authoritative sources
     and clear summaries.
-  llm: nvidia_nim/openai/gpt-oss-120b
+
 
 
 
@@ -44,6 +44,6 @@ technical_writer:
     You are an experienced technical writer skilled at turning raw
     research data into structured insights with clarity, depth, and
     professional quality.
-  llm: nvidia_nim/openai/gpt-oss-120b
+
 
 
