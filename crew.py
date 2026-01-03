@@ -29,7 +29,7 @@ class DeepResearchCrew:
             api_key=os.getenv("FIRECRAWL_API_KEY")
         )
         self.llm = LLM(
-            model="nvidia_nim/mistralai/devstral-2-123b-instruct-2512",
+            model="nvidia_nim/nvidia/nemotron-3-nano-30b-a3b",
             api_key=os.getenv("NVIDIA_API_KEY"),
             temperature=0.7,
             max_tokens=8192
